@@ -1,0 +1,12 @@
+{
+  "name": "project_8_sql_library_manager",
+  "version": "1.0.0",
+  "description": "A library management system",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anna Foldvari",
+  "license": "ISC"
+}
