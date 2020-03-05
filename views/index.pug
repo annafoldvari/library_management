@@ -1,12 +1,37 @@
-doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/static/stylesheets/style.css')
-  body
-    h1= "Books"
-    p
-      a(href="/new_book", class="button") Create New Book
+extends layout
+
+block content
+  h1= "Books"
+  form(class="search-form")
+    input(placeholder="Search..." name="search")
+    input(type="submit" value="Search" class="search-submit")
+  p
+    a(href="/books/new", class="button") Create New Book
+  table
+    thead
+      tr
+        th Title
+        th Author
+        th Genre
+        th Year
+    tbody
+    each book in books
+      tr
+        td
+          a(href="/books/" + book.id)= book.title
+        td= book.author
+        td= book.genre
+        td= book.year
+  div(class="pagination")
+    ul
+      each li in lilist
+        li
+          a(href="/books?p=" + li)= li       
+  if(search_term && result_books.length == 0)
+    h2 No results for 
+      span= search_term
+  if(result_books.length > 0)
+    h2 Search Results           
     table
       thead
         tr
@@ -15,11 +40,10 @@ html
           th Genre
           th Year
       tbody
-      each book in books
+      each r_book in result_books
         tr
           td
-            a(href="/book_detail")= book.title
-          td= book.author
-          td= book.genre
-          td= book.year  
-
+            a(href="/books/" + r_book.id)= r_book.title
+          td= r_book.author
+          td= r_book.genre
+          td= r_book.year 

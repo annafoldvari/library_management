@@ -95,3 +95,29 @@ input[type=text] {
 .error {
   color: rgb(236, 15, 15);
 }
+
+.search-form {
+  margin-bottom: 60px;
+}
+
+.search-submit {
+  margin-left: 10px !important;
+}
+
+.pagination {
+  margin-top: 50px;
+}
+
+.pagination ul {
+  display: flex;
+}
+
+.pagination ul li {
+  margin-right: 5px;
+}
+
+.pagination ul li a {
+  color: white;
+  background: #019875;
+  padding: 5px;
+}
