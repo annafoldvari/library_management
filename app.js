@@ -115,11 +115,24 @@ app.post('/books/new', asyncHandler(async (req, res) => {
 //Shows book detail form
 
 app.get('/books/:id', asyncHandler(async(req, res) => {
-  const book = await Book.findByPk(req.params.id);
-  if (book) {
-    res.render("update-book", { book, title: "Update Book" });
-  } else {
-    res.sendStatus(404);
+  const id = req.params.id;
+  const count = await Book.count({
+    where: {
+      id: {
+        [Op.eq]: id
+      }
+    }
+  });
+
+  if (id == NaN || count != 1) {
+    res.render('error', {title: "Book not found"})
+  } else { 
+    const book = await Book.findByPk(id);
+    if (book) {
+      res.render("update-book", { book, title: "Update Book" });
+    } else {
+      res.sendStatus(404);
+    }
   }
 }));
 
@@ -127,6 +140,7 @@ app.get('/books/:id', asyncHandler(async(req, res) => {
 
 app.post('/books/:id', asyncHandler(async (req, res) => {
   let book
+
   try {
     book = await Book.findByPk(req.params.id);
     if (book) {
@@ -138,10 +152,11 @@ app.post('/books/:id', asyncHandler(async (req, res) => {
   } catch (error) {
     if(error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
-      book.id = req.params.id; // make sure correct article gets updated
+      book.id = req.params.id;
       res.render("update-book", { book, errors: error.errors, title: "Update Book" })
     } else {
-      throw error;
+      console.log(error);
+      res.render('error', {title: "Book Not Found"});
     }
   }
 }));
